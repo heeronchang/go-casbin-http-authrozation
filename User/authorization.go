@@ -5,10 +5,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/casbin/casbin"
+	"github.com/casbin/casbin/v2"
 )
 
-//Authorizer 认证中间件
+// Authorizer 认证中间件
 func Authorizer(e *casbin.Enforcer, users Items) func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		fn := func(w http.ResponseWriter, r *http.Request) {
@@ -37,7 +37,7 @@ func Authorizer(e *casbin.Enforcer, users Items) func(next http.Handler) http.Ha
 			}
 
 			// casbin enforce
-			res, err := e.EnforceSafe(role, r.URL.Path, r.Method)
+			res, err := e.Enforce(role, r.URL.Path, r.Method)
 			if err != nil {
 				writeError(http.StatusInternalServerError, "内部错误", w, err)
 				return

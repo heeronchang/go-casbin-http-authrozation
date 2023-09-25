@@ -48,6 +48,7 @@ func loginHandler(users User.Items) http.HandlerFunc {
 		}
 		_ = session.PutInt(w, "id", user.ID)
 		_ = session.PutString(w, "role", user.Role)
+		log.Println(session.GetString("role"))
 		writeSuccess("SUCCESS", w)
 	})
 }
